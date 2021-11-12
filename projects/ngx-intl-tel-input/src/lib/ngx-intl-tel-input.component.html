@@ -1,5 +1,5 @@
 <div class="iti iti--allow-dropdown"
-	[ngClass]="separateDialCodeClass">
+	[ngClass]="separateDialCodeClass" (click)="resetCountrySearchText()">
 	<div class="iti__flag-container"
 		dropdown
 		[ngClass]="{'disabled': disabled}"
@@ -21,6 +21,7 @@
 					(keyup)="searchCountry()"
 					(click)="$event.stopPropagation()"
 					[placeholder]="searchCountryPlaceholder"
+					autocomplete="off"
 					autofocus>
 			</div>
 			<ul class="iti__country-list"

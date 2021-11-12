@@ -150,7 +150,8 @@ export class NgxIntlTelInputComponent implements OnInit, OnChanges {
 	 * Search country based on country name, iso2, dialCode or all of them.
 	 */
 	public searchCountry() {
-		if (!this.countrySearchText) {
+		let countrySearchText = this.countrySearchText.replace('+', '');
+		if (!countrySearchText) {
 			this.countryList.nativeElement
 				.querySelector('.iti__country-list li')
 				.scrollIntoView({
@@ -160,7 +161,7 @@ export class NgxIntlTelInputComponent implements OnInit, OnChanges {
 				});
 			return;
 		}
-		const countrySearchTextLower = this.countrySearchText.toLowerCase();
+		const countrySearchTextLower = countrySearchText.toLowerCase();
 		const country = this.allCountries.filter((c) => {
 			if (this.searchCountryField.indexOf(SearchCountryField.All) > -1) {
 				// Search in all fields
@@ -170,7 +171,7 @@ export class NgxIntlTelInputComponent implements OnInit, OnChanges {
 				if (c.name.toLowerCase().startsWith(countrySearchTextLower)) {
 					return c;
 				}
-				if (c.dialCode.startsWith(this.countrySearchText)) {
+				if (c.dialCode.startsWith(countrySearchText)) {
 					return c;
 				}
 			} else {
@@ -186,7 +187,7 @@ export class NgxIntlTelInputComponent implements OnInit, OnChanges {
 					}
 				}
 				if (this.searchCountryField.indexOf(SearchCountryField.DialCode) > -1) {
-					if (c.dialCode.startsWith(this.countrySearchText)) {
+					if (c.dialCode.startsWith(countrySearchText)) {
 						return c;
 					}
 				}
@@ -533,5 +534,12 @@ export class NgxIntlTelInputComponent implements OnInit, OnChanges {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Resets searched value on dropdown reopen.
+	 */
+	resetCountrySearchText() {
+		this.countrySearchText = '';
 	}
 }
